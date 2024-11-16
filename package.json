@@ -9,7 +9,7 @@
     "dev:api": "cd ./api && npm run dev",
     "build": "cd ./frontend && npm run build",
     "start:prod": "cd ./api && npm start && cd ../frontend && npm run build && npm run preview",
-    "test:api": "cd ./api && npm start:test && npm run test:blogs && npm run test:users",
+    "test:api": "cd ./api && npm run start:test && npm run test:blogs && npm run test:users",
     "test:frontend": "cd ./frontend && npm run test"
   },
   "author": "rsvives",
