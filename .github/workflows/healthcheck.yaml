@@ -1,0 +1,58 @@
+name: HealthCheck
+
+on:
+  schedule:
+    - cron: "0 12 * * *"
+env:
+  PROJECT_URL: https://full-stack-open-pokedex-1-0y5t.onrender.com/health
+
+jobs:
+  ping:
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Check the deployed service URL
+        uses: jtalk/url-health-check-action@v4
+        with:
+          # Check the following URLs one by one sequentially
+          url: ${{env.PROJECT_URL}}
+          # Follow redirects, or just report success on 3xx status codes
+          follow-redirect: false # Optional, defaults to "false"
+          # Fail this action after this many failed attempts
+          max-attempts: 3 # Optional, defaults to 1
+          # Delay between retries
+          retry-delay: 5s # Optional, only applicable to max-attempts > 1
+          # Retry all errors, including 404. This option might trigger curl upgrade.
+          # retry-all: false # Optional, defaults to "false"
+          # String representation of cookie attached to health check request.
+          # Format: `Name=Value`
+          # cookie: "token=asdf1234" # Optional, default is empty
+          # Basic auth login password pair.
+          # Format: `login:password`
+          # basic-auth: "login:password" # Optional, default is empty
+      - name: Discord notification on success
+        uses: tsickert/discord-webhook@v5.3.0
+        if: success()
+        with:
+          username: Health Check
+          # avatar-url: https://cdn-icons-png.flaticon.com/512/4807/4807695.png
+          avatar-url: https://cdn-icons-png.flaticon.com/512/10468/10468680.png
+          content: Periodic Health Check to ${{github.repository}}
+          embed-color: 6144854
+          embed-title: ✅  Everything looks good!
+          embed-description: "**Repository:** [${{github.repository}}](${{github.event.repository.html_url}}) \n**URL:** [follow link](https://full-stack-open-pokedex-1-0y5t.onrender.com)"
+          embed-footer-text: image by Flaticon.com
+          webhook-url: ${{ secrets.DISCORD_WEBHOOK }}
+
+      - name: Discord notification on fail
+        uses: tsickert/discord-webhook@v5.3.0
+        if: failure()
+        with:
+          username: Health Check
+          # avatar-url: https://cdn-icons-png.flaticon.com/512/4807/4807695.png
+          avatar-url: https://cdn-icons-png.flaticon.com/512/10468/10468680.png
+          content: Periodic Health Check to ${{github.repository}}
+          embed-color: 14701393
+          embed-title: ❌  Something went wrong! Production site is down
+          embed-description: "**Repository:** [${{github.repository}}](${{github.event.repository.html_url}}) \n**URL:** [follow link](https://full-stack-open-pokedex-1-0y5t.onrender.com)"
+          embed-footer-text: image by Flaticon.com
+          webhook-url: ${{ secrets.DISCORD_WEBHOOK }}

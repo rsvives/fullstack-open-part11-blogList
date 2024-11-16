@@ -1,0 +1,81 @@
+name: Deployment pipeline
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches: [main]
+    types: [opened, synchronize]
+
+jobs:
+  deployment_pipeline:
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Check style
+        run: npm run eslint
+
+      - name: Testing API
+        run: "npm run test:api"
+      
+      - name: Testing Frontend
+        run: "npm run test:frontend"
+      
+      - name: Build
+        run: npm run build
+
+
+      # - name: Trigger deployment
+      #   if: ${{ github.event_name == 'push' && !contains(join(github.event.commits.*.message), '#skip') }}
+      #   run: curl ${{secrets.RENDER_DEPLOY_HOOK}}
+
+      # - name: Discord Webhook Action on fail
+      #   uses: tsickert/discord-webhook@v5.3.0
+      #   if: ${{ github.event_name == 'push' && !contains(join(github.event.commits.*.message), '#skip') && failure() }}
+      #   with:
+      #     embed-color: 14701393
+      #     username: Github Actions
+      #     avatar-url: https://avatars.githubusercontent.com/u/9919?v=4
+      #     embed-title: ❌  Deployment failed on ${{github.repository}}
+      #     embed-description: "**Repository:** [${{github.repository}}](${{github.event.repository.html_url}}) \n**Latest Commit:** [${{github.event.commits[0].id}}](${{github.event.commits[0].url}}) \n**By:** ${{github.event.commits[0].author.username}}"
+      #     webhook-url: ${{ secrets.DISCORD_WEBHOOK }}
+      #     # content: "Test failed"
+
+      # - name: Discord Webhook Action on succeed
+      #   uses: tsickert/discord-webhook@v5.3.0
+      #   if: ${{ github.event_name == 'push' && !contains(join(github.event.commits.*.message), '#skip') && success()}}
+      #   with:
+      #     username: Github Actions
+      #     avatar-url: https://avatars.githubusercontent.com/u/9919?v=4
+      #     embed-color: 6144854
+      #     embed-title: 🚀  New version deployed of ${{github.repository}}
+      #     embed-description: "**Repository:** [${{github.repository}}](${{github.event.repository.html_url}}) \n**Latest Commit:** [${{github.event.commits[0].id}}](${{github.event.commits[0].url}}) \n**By:** ${{github.event.commits[0].author.username}} \n**URL:** [follow link](https://full-stack-open-pokedex-1-0y5t.onrender.com)"
+      #     webhook-url: ${{ secrets.DISCORD_WEBHOOK }}
+
+  tag_release:
+    if: ${{ github.event_name == 'push' && !contains(join(github.event.commits.*.message), '#skip') }}
+    needs: [deployment_pipeline]
+    runs-on: ubuntu-22.04
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.merge_commit_sha }}
+          fetch-depth: "actions/checkout@v4"
+
+      - name: Bump version and push tag
+        uses: anothrNick/github-tag-action@1.71.0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # if you don't want to set write permissions use a PAT token
+          WITH_V: true
+          DEFAULT_BUMP: patch
+        #
