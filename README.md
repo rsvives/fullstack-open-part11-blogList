@@ -4,7 +4,19 @@ Repository for exercises 20 and 21 of part 11 of FullStack Open Course regarding
 
 ## Commands
 
+- dev:api
+- dev:frontend
 - test:api 
+- test:frontend
+- build
+- start:prod
 
+## Actions
+Inside the .github/workflows folder there are two actions:
 
-## 
+- pipeline
+- healthcheck
+
+## Hosting
+
+App is hosted at [render.com]()
