@@ -3,6 +3,8 @@
   "version": "1.0.0",
   "description": "Blog List App deployed with GitHub Actions pipeline",
   "scripts": {
+    "install": "cd ./api && npm install && cd ../frontend && npm install",
+    "lint": "cd ./frontend && npm run lint && cd ../api && npm run lint",
     "dev:frontend": "cd ./frontend && npm run dev",
     "dev:api": "cd ./api && npm run dev",
     "build": "cd ./frontend && npm run build",

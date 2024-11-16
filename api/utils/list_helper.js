@@ -1,5 +1,4 @@
 const _ = require('lodash')
-const Blog = require('../models/blog')
 const dummy = (blogs) => {
   return blogs ? 1 : 0
 }

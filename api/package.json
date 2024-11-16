@@ -9,7 +9,8 @@
     "dev": "cross-env NODE_ENV=development nodemon index.js",
     "test": "cross-env NODE_ENV=test jest --verbose",
     "test:users": "cross-env NODE_ENV=test jest user_api --verbose",
-    "test:blogs": "cross-env NODE_ENV=test jest blog_list_api --verbose"
+    "test:blogs": "cross-env NODE_ENV=test jest blog_list_api --verbose",
+    "lint": "eslint ."
   },
   "author": "",
   "license": "ISC",
@@ -25,11 +26,13 @@
     "mongoose-unique-validator": "^4.0.1"
   },
   "devDependencies": {
-    "eslint": "^8.56.0",
+    "@eslint/js": "^9.15.0",
+    "eslint": "^8.57.1",
     "eslint-config-standard": "^17.1.0",
     "eslint-plugin-import": "^2.29.1",
     "eslint-plugin-n": "^16.6.2",
     "eslint-plugin-promise": "^6.1.1",
+    "globals": "^15.12.0",
     "jest": "^29.7.0",
     "lodash": "^4.17.21",
     "nodemon": "^3.0.3",
