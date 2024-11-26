@@ -4,12 +4,12 @@ Repository for exercises 20 and 21 of part 11 of FullStack Open Course regarding
 
 ## Commands
 
-- dev:api
-- dev:frontend
-- test:api 
-- test:frontend
-- build
-- start:prod
+- `dev:api`: starts the backend on development mode
+- `dev:frontend`: starts the frontend on development mode
+- `test:api`: runs unit tests on the backend
+- `test:frontend`: runs unit tests on the frontend
+- `build`: generates a `/dist` directory on the frontend folder
+- `start:prod`: starts the app in production mode
 
 ## Actions
 Inside the .github/workflows folder there are two actions:
@@ -19,4 +19,4 @@ Inside the .github/workflows folder there are two actions:
 
 ## Hosting
 
-App is hosted at [render.com]()
+App is hosted at [render.com](https://fullstack-open-part11-bloglist.onrender.com)

@@ -8,7 +8,7 @@
     "dev:frontend": "cd ./frontend && npm run dev",
     "dev:api": "cd ./api && npm run dev",
     "build": "cd ./frontend && npm run build",
-    "start:prod": "cd ./api && npm start && cd ../frontend && npm run build && npm run preview",
+    "start:prod": "cd ./api && npm start",
     "test:api": "cd ./api && npm run test:blogs && npm run test:users",
     "test:frontend": "cd ./frontend && npm run test"
   },
