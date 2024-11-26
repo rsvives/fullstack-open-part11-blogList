@@ -57,7 +57,7 @@ jobs:
           avatar-url: https://avatars.githubusercontent.com/u/9919?v=4
           embed-color: 6144854
           embed-title: 🚀  New version deployed of ${{github.repository}}
-          embed-description: "**Repository:** [${{github.repository}}](${{github.event.repository.html_url}}) \n**Latest Commit:** [${{github.event.commits[0].id}}](${{github.event.commits[0].url}}) \n**By:** ${{github.event.commits[0].author.username}} \n**URL:** [follow link](https://full-stack-open-pokedex-1-0y5t.onrender.com)"
+          embed-description: "**Repository:** [${{github.repository}}](${{github.event.repository.html_url}}) \n**Latest Commit:** [${{github.event.commits[0].id}}](${{github.event.commits[0].url}}) \n**By:** ${{github.event.commits[0].author.username}} \n**URL:** [follow link](https://fullstack-open-part11-bloglist.onrender.com)"
           webhook-url: ${{ secrets.DISCORD_WEBHOOK }}
 
   tag_release:
