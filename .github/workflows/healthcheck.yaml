@@ -4,7 +4,7 @@ on:
   schedule:
     - cron: "0 12 * * *"
 env:
-  PROJECT_URL: https://full-stack-open-pokedex-1-0y5t.onrender.com/health
+  PROJECT_URL: https://fullstack-open-part11-bloglist.onrender.com/health
 
 jobs:
   ping:
@@ -39,7 +39,7 @@ jobs:
           content: Periodic Health Check to ${{github.repository}}
           embed-color: 6144854
           embed-title: ✅  Everything looks good!
-          embed-description: "**Repository:** [${{github.repository}}](${{github.event.repository.html_url}}) \n**URL:** [follow link](https://full-stack-open-pokedex-1-0y5t.onrender.com)"
+          embed-description: "**Repository:** [${{github.repository}}](${{github.event.repository.html_url}}) \n**URL:** [follow link](https://fullstack-open-part11-bloglist.onrender.com)"
           embed-footer-text: image by Flaticon.com
           webhook-url: ${{ secrets.DISCORD_WEBHOOK }}
 
@@ -53,6 +53,6 @@ jobs:
           content: Periodic Health Check to ${{github.repository}}
           embed-color: 14701393
           embed-title: ❌  Something went wrong! Production site is down
-          embed-description: "**Repository:** [${{github.repository}}](${{github.event.repository.html_url}}) \n**URL:** [follow link](https://full-stack-open-pokedex-1-0y5t.onrender.com)"
+          embed-description: "**Repository:** [${{github.repository}}](${{github.event.repository.html_url}}) \n**URL:** [follow link](https://fullstack-open-part11-bloglist.onrender.com)"
           embed-footer-text: image by Flaticon.com
           webhook-url: ${{ secrets.DISCORD_WEBHOOK }}
