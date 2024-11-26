@@ -10,7 +10,7 @@ const api = supertest(app)
 
 beforeEach(async () => {
   return await helper.initializeDB()
-})
+}, 10000)
 
 describe('GET all users from db', () => {
   test('users are returned in JSON', async () => {

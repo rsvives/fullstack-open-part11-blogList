@@ -72,12 +72,12 @@ const dbBlogs = async () => {
   return blogs.map(blog => blog.toJSON())
 }
 
-const firstUser =
-  {
-    username: 'user1',
-    name: 'Mr. User',
-    password: 'pass123'
-  }
+const testUser =
+{
+  username: 'user1',
+  name: 'Mr. User',
+  password: 'pass123'
+}
 
 const initialUsers = [
   {
@@ -116,24 +116,27 @@ const dbUsers = async () => {
 const initializeDB = async () => {
   await clearDB()
 
-  // const user = await new User(firstUser)
-  // user.passwordHash = await bcrypt.hash(firstUser.password, config.SALT_ROUNDS)
+  // for (const blog of initialBlogs) {
+  //   const newBlog = new Blog(blog)
+  //   await newBlog.save()
+  // }
+  // for (const user of initialUsers) {
+  //   const newUser = new User(user)
+  //   await newUser.save()
+  // }
+  const blogObjects = initialBlogs
+    .map(blog => new Blog(blog))
 
-  // const savedUser = await user.save()
+  const promiseArray = blogObjects.map(blog => blog.save())
+  await Promise.all(promiseArray)
 
-  for (const blog of initialBlogs) {
-    const newBlog = new Blog(blog)
-    await newBlog.save()
-  }
-  for (const user of initialUsers) {
-    const newUser = new User(user)
-    await newUser.save()
-  }
-
-  // await savedUser.save()
-  // console.log(savedUser)
+  const userObjects = initialUsers.map(user => new User(user))
+  const userPromiseArray = userObjects.map(user => user.save())
+  await Promise.all(userPromiseArray)
 }
 const clearDB = async () => {
+  // await User.deleteMany({})
+  // await Blog.deleteMany({})
   await User.collection.drop()
   await Blog.collection.drop()
 }
@@ -143,7 +146,7 @@ module.exports = {
   initialBlogs,
   initialUsers,
   dbBlogs,
-  firstUser,
+  testUser,
   dbUsers,
   initializeDB
 }

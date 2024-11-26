@@ -30,7 +30,7 @@ app.use('/api/login', loginRouter)
 app.use('/api/', commentsRouter)
 app.use('/api/testing', testingRouter)
 
-app.get('/health', res => res.send('ok'))
+app.get('/health', (_req, res) => res.send('ok'))
 
 app.use(middleware.unknownEndpoint)
 app.use(middleware.errorHandler)
