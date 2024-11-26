@@ -2,20 +2,31 @@ const mongoose = require('mongoose')
 
 const supertest = require('supertest')
 const app = require('../app')
-const jwt = require('jsonwebtoken')
+// const jwt = require('jsonwebtoken')
 const helper = require('./test_helper')
 
 const api = supertest(app)
 let token = null
-let firstUser = null
+
+let firstUser
 
 const initTests = () => (beforeAll(async () => {
   await helper.initializeDB()
 
   const users = await helper.dbUsers()
   firstUser = users[0]
-  token = jwt.sign(firstUser, process.env.SECRET)
-}))
+  // firstUser =
+  //   await api
+  //     .post('/api/users')
+  //     .send(helper.testUser)
+
+  const response = await api
+    .post('/api/login')
+    .send(helper.testUser)
+
+  token = response.body.token
+  // token = jwt.sign(firstUser, process.env.SECRET)
+}, 10000))
 
 describe('GET all blogs from db', () => {
   initTests()
@@ -34,10 +45,6 @@ describe('GET all blogs from db', () => {
   test('a blog belongs to a user', async () => {
     const response = await api.get('/api/blogs')
 
-    const users = await helper.dbUsers()
-    // console.log(users)
-    const firstUser = users[0]
-
     expect(response.body[0].user.name).toBe(firstUser.name)
   })
 })
@@ -46,8 +53,6 @@ describe('POST new blog', () => {
   initTests()
   test('a valid blog can be posted', async () => {
     const newBlog = helper.newBlog
-    const users = await helper.dbUsers()
-    const firstUser = users[0]
     newBlog.user = firstUser.id
 
     await api
