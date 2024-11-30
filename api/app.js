@@ -31,6 +31,7 @@ app.use('/api/', commentsRouter)
 app.use('/api/testing', testingRouter)
 
 app.get('/health', (_req, res) => res.send('ok'))
+app.get('/awesome_feature', (_req, res) => res.send('🚀'))
 
 app.use(middleware.unknownEndpoint)
 app.use(middleware.errorHandler)
